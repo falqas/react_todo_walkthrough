@@ -1,63 +1,30 @@
 ## Sprint 3: Fetching Data with Axios
 
-React actually isn't as full featured as say AngularJS or BackboneJS. It relies on third party libraries to fetch data. Today, we'll be using a library called [Axios](https://github.com/mzabriskie/axios), a promise based HTTP client for the browser and node. Let's install the module now and also create the folder/file that will contain our database logic:
-
-```bash
-$ npm install axios --save
-$ mkdir src/models
-$ touch src/models/Todo.js
-```
-
-Now in `src/models/Todo.js`, we are going to use our beloved super-crud API endpoint of todos to get some data (you can check out the raw json at https://super-crud.herokuapp.com/todos):
-
-```js
-import axios from 'axios'
-
-class TodoModel {
-  static all(){
-    let request = axios.get("https://super-crud.herokuapp.com/todos")
-    return request
-  }
-}
-
-export default TodoModel
-```
-
-The Axios API is awesome! It's pretty intuitive! When we use the `all` method on our `TodoModel`, it will make a get request to our API for all todos. We return the request so that we can chain promises to it.
-
-Note also that `all()` is a static method. What does this mean? A static method can be called without there being an **instance** of the class containing the static method. This will allow us to call `all()` in the following way (without ***instantiating*** the class with new):
-
-```js
-let todos = TodoModel.all()
-```
-
-
-**Class methods** don't require an instance of the class in order to be called, but an **instance method** does. [More on Static Methods in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Static_methods)
-
-We can't really test out the code in this file in isolation, so we must `import` it into our application in order to test it. The logical place to import this code is in the `TodosContainer` component.
-
-For now, let's toss this in the `TodosContainer`'s `render()` method: this isn't ultimately going to be where we want to call `TodoModel.all()`, but for testing purposes, it will suffice.
+For now, let's toss a fetch API call in the `TodosContainer`'s `render()` method: this isn't ultimately going to be where we want to call our API, but for testing purposes, it will suffice.
 
 In `components/TodosContainer.js`:
 
 ```js
-import React, {Component} from 'react'
-import TodoModel from '../models/Todo'
+import React, { Component } from 'react';
 
 class TodosContainer extends Component {
-  render(){
-    TodoModel.all().then( (res) => {
-      console.log(res);
-    })
+  render() {
+    let url = 'https://super-crud.herokuapp.com/todos';
+    fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+      })
+      .catch(err => console.log(err));
     return (
-      <div className='todosContainer'>
+      <div className="todosContainer">
         <h2>This is a todos container</h2>
       </div>
-    )
+    );
   }
 }
 
-export default TodosContainer
+export default TodosContainer;
 ```
 
 Awesome, we can see the response from our database as soon as the page loads, we know it's working! However, its completely in the wrong spot and we don't have anything we're passing todos to... yet!

@@ -86,39 +86,42 @@ In this component, we have a property called todos. When we eventually use this 
 Let's shove the remaining code we need in and then let's talk about it. In `src/containers/TodosContainer.js`:
 
 ```js
-import React, {Component} from 'react'
-import TodoModel from '../models/Todo'
-import Todos from '../components/Todos'
+import React, { Component } from 'react';
+import TodoModel from '../models/Todo';
+import Todos from '../components/Todos';
 
 class TodosContainer extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
     this.state = {
       todos: []
-    }
+    };
   }
-  componentDidMount(){
-    this.fetchData()
+  componentDidMount() {
+    this.fetchData();
   }
-  fetchData(){
-    TodoModel.all().then( (res) => {
-      this.setState ({
-        todos: res.data.todos,
-        todo: ''
+  fetchData() {
+    let url = 'https://super-crud.herokuapp.com/todos';
+    fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          todos: json.todos,
+          todo: ''
+        });
       })
-    })
+      .catch(err => console.log(err));
   }
-  render(){
+  render() {
     return (
       <div className="todosComponent">
-        <Todos
-          todos={this.state.todos} />
+        <Todos todos={this.state.todos} />
       </div>
-    )
+    );
   }
 }
 
-export default TodosContainer
+export default TodosContainer;
 ```
 
 If we take a look at our browser now... BAM todos! What just happened....

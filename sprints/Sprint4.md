@@ -73,7 +73,7 @@ We define the initial state of the form in the constructor.
 
 Looks like a form. When it gets submitted we run a function (we're using es6 arrow function here to pass an anonymous function with an event argument). That function is the `.onFormSubmit` function defined in this component.
 
-> `onSubmit` is reserved JSX to define an event for form submission, almost identical to `ng-submit` in angular
+> `onSubmit` is reserved JSX to define an event for form submission.
 
 Similarly when the `input` is changed we run `.onInputChange`.
 

@@ -1,4 +1,4 @@
-## Sprint 3: Fetching Data with Axios
+## Sprint 3: Fetching Data with ... Fetch!
 
 For now, let's toss a fetch API call in the `TodosContainer`'s `render()` method: this isn't ultimately going to be where we want to call our API, but for testing purposes, it will suffice.
 
